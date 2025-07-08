@@ -1,22 +1,31 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 
+type FormData = {
+  name: string;
+  email: string;
+};
 
-const FormScreen = () => {
+const FormScreen: React.FC = () => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
 
-  const navigation = useNavigation();
-
-  const onSubmit = data => {
-    Alert.alert('Form Data:', data);
+  const navigation = useNavigation<any>();
+  const onSubmit = (data: FormData) => {
+    // Alert.alert('Form Data:', JSON.stringify(data, null, 2));
     navigation.navigate('MainTabs');
-    
   };
 
   return (

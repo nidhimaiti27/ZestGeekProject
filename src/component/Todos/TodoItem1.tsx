@@ -1,7 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const TodoItem1 = ({ item, onDelete, onEdit }) => {
+interface TodoItemProps {
+  item: {
+    id: string;
+    task: string;
+  };
+  onDelete: (id: string) => void;
+  onEdit: () => void;
+}
+
+const TodoItem1: React.FC<TodoItemProps> = ({ item, onDelete, onEdit }) => {
   return (
     <View style={styles.item}>
       <Text style={styles.text}>{item.task}</Text>
@@ -25,8 +34,8 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 8,
-    borderWidth:1,
-    borderColor:"#4F46E5"
+    borderWidth: 1,
+    borderColor: '#4F46E5',
   },
   text: {
     fontSize: 20,
@@ -36,7 +45,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 10,
-    // marginTop: 10,
   },
   editBtn: {
     backgroundColor: '#4CAF50',

@@ -1,7 +1,28 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 
-const ProductSpecification = ({ route }) => {
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
+  rating?: {
+    rate: number;
+    count: number;
+  };
+};
+
+type Props = {
+  route: {
+    params: {
+      product: Product;
+    };
+  };
+};
+
+const ProductSpecification = ({ route }: Props) => {
   const { product } = route.params;
 
   return (
@@ -26,9 +47,10 @@ const ProductSpecification = ({ route }) => {
           <Text style={styles.value}>{product.rating?.rate} / 5</Text>
         </View>
 
-        {/* <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Add to Cart</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -38,15 +60,14 @@ export default ProductSpecification;
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 20,
     alignItems: 'center',
   },
   imageCard: {
     backgroundColor: '#fff',
     padding: 5,
     marginBottom: 20,
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   image: {
     width: 400,
@@ -90,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: 'justify',
   },
+
   button: {
     backgroundColor: '#4F46E5',
     paddingVertical: 12,
@@ -103,3 +125,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+

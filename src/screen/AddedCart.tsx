@@ -1,19 +1,32 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, ListRenderItem } from 'react-native';
 import { useCart } from '../context/CartContext';
 import CartItemCard from '../component/CartProduct/CartItemCard';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const AddedCart = ({ navigation }) => {
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+};
+
+type Props = {
+  navigation: NativeStackNavigationProp<any>;
+};
+
+const AddedCart = ({ navigation }: Props) => {
   const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } = useCart();
 
-  const renderItem = ({ item }) => (
+  const renderItem: ListRenderItem<Product> = ({ item }) => (
     <CartItemCard
-    item={item}
-    onNavigate={() => navigation.navigate('ProductSpecification', { product: item })}
-    onIncrement={() => incrementQuantity(item.id)}
-    onDecrement={() => decrementQuantity(item.id)}
-    onRemove={() => removeFromCart(item.id)}
-  />
+      item={item}
+      onNavigate={() => navigation.navigate('ProductSpecification', { product: item })}
+      onIncrement={() => incrementQuantity(item.id)}
+      onDecrement={() => decrementQuantity(item.id)}
+      onRemove={() => removeFromCart(item.id)}
+    />
   );
 
   return (

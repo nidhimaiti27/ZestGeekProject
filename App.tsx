@@ -7,12 +7,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FormScreen from './src/screen/FormScreen';
 import ShoppingListScreen from './src/screen/ShoppingListScreen';
 import { TodoSreen1 } from './src/screen/TodoSreen1';
-import TodoScreen from './src/screen/TodoScreen';
 import ProductSpecification from './src/screen/ProductSpecification';
 import AddedCart from './src/screen/AddedCart';
 import { CartProvider } from './src/context/CartContext';
+import { RootStackParamList } from './src/types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 const MainTabs = () => (
@@ -42,14 +42,11 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Form" component={FormScreen} />
-
           <Stack.Screen
             name="MainTabs"
             component={MainTabs}
             options={{ headerShown: false }}
           />
-
-          <Stack.Screen name="Todo" component={TodoScreen} />
           <Stack.Screen name="ProductSpecification" component={ProductSpecification} />
           <Stack.Screen name="AddedCart" component={AddedCart} />
         </Stack.Navigator>

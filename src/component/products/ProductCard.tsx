@@ -3,20 +3,34 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useCart } from '../../context/CartContext';
 
-const ProductCard = ({ item, onPress }) => {
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  available?: boolean;
+}
+
+interface ProductCardProps {
+  item: Product;
+  onPress: () => void;
+    onAddToCart: () => void;
+
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ item, onPress }) => {
   const { cartItems, addToCart, removeFromCart, decrementQuantity } = useCart();
-
-  const navigation = useNavigation();
-
-  const cartItem = cartItems.find(ci => ci.id === item.id);
+  const navigation = useNavigation<any>(); 
+  const cartItem = cartItems.find((ci) => ci.id === item.id);
   const quantity = cartItem?.quantity || 0;
   const isDisabled = item.available === false;
 
   return (
     <TouchableOpacity
       style={[styles.card, isDisabled && styles.disabledCard]}
-      onPress={!isDisabled ? onPress : null}
+      onPress={isDisabled ? undefined : onPress}
       activeOpacity={isDisabled ? 1 : 0.9}
+
     >
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.title} numberOfLines={2}>{item.title}</Text>

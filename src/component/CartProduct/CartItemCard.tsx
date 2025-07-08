@@ -1,13 +1,29 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+};
+
+interface CartItemCardProps {
+  item: Product;
+  onNavigate: () => void;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onRemove: () => void;
+}
+
 const CartItemCard = ({
   item,
   onNavigate,
   onIncrement,
   onDecrement,
   onRemove
-}) => {
+}: CartItemCardProps) => {
   return (
     <TouchableOpacity onPress={onNavigate}>
       <View style={styles.card}>
