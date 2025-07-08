@@ -1,7 +1,7 @@
 import { View, Text, TextInput, SafeAreaView,TouchableOpacity, StyleSheet, FlatList } from 'react-native'
 import React, {useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
-import TodoItem1 from '../component/TodoItem1'
+import TodoItem1 from '../component/Todos/TodoItem1' 
 export function TodoSreen1 ()  {
     const [todos, setTodos] = useState([])
     const [editingId, setEditingId ] = useState(null)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
-import { TodoItem } from '../component/TodoItem';
+import { TodoItem } from '../component/Todos/TodoItem';
 
 function TodoScreen  () {
     const [task, setTask] = useState('');

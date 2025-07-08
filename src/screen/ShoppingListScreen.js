@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useCart } from '../context/CartContext';
+import ProductCard from '../component/products/ProductCard';
 
 const ShoppingListScreen = () => {
     const [products, setProducts] = useState([]);
@@ -20,8 +21,6 @@ const ShoppingListScreen = () => {
     const { cartItems, addToCart } = useCart();
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
-
-    // const { addToCart } = useCart();
 
     useEffect(() => {
         fetchProducts();
@@ -49,20 +48,13 @@ const ShoppingListScreen = () => {
     );
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate('ProductSpecification', { product: item })}
-        >
-            <Image source={{ uri: item.image }} style={styles.image} />
-            <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-            <Text style={styles.price}>${item.price}</Text>
-            <TouchableOpacity style={styles.button} onPress={() => addToCart(item)}>
-                <Text style={styles.buttonText}>Add to Cart</Text>
-            </TouchableOpacity>
+  <ProductCard
+    item={item}
+    onPress={() => navigation.navigate('ProductSpecification', { product: item })}
+    onAddToCart={() => addToCart(item)}
+  />
+);
 
-
-        </TouchableOpacity>
-    );
 
     if (loading) {
         return (
@@ -97,9 +89,6 @@ const ShoppingListScreen = () => {
 
             </View>
 
-            {/* <ScrollView> */}
-                {/* <Text style={styles.sectionTitle}>🛍️ Popular Products</Text> */}
-
                 <FlatList
                     data={filteredProducts}
                     ListHeaderComponent={() => <Text style={styles.sectionTitle}>🛍️ Popular Products</Text> }
@@ -109,7 +98,7 @@ const ShoppingListScreen = () => {
                     scrollEnabled={true}
                     contentContainerStyle={styles.list}
                 />
-            {/* </ScrollView> */}
+                
         </SafeAreaView>
     );
 };
