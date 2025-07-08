@@ -15,9 +15,7 @@ const FormScreen = () => {
 
   const onSubmit = data => {
     Alert.alert('Form Data:', data);
-    // navigation.navigate("Todo");
-    navigation.navigate("TodoSreen1");
-
+    navigation.navigate('MainTabs');
     
   };
 
@@ -78,7 +76,7 @@ export default FormScreen;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    marginTop: 60,
+    marginTop: 16,
   },
   title: {
     fontSize: 22,

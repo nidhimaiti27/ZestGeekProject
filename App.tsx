@@ -1,20 +1,60 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TodoScreen from './src/screen/TodoScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import FormScreen from './src/screen/FormScreen';
+import ShoppingListScreen from './src/screen/ShoppingListScreen';
 import { TodoSreen1 } from './src/screen/TodoSreen1';
+import TodoScreen from './src/screen/TodoScreen';
+import ProductSpecification from './src/screen/ProductSpecification';
+import AddedCart from './src/screen/AddedCart';
+import { CartProvider } from './src/context/CartContext';
+
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const MainTabs = () => (
+  <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Screen
+      name="ShoppingListScreen"
+      component={ShoppingListScreen}
+      options={{
+        title: 'Shop',
+        tabBarIcon: () => <Text style={{ fontSize: 18 }}>🛍️</Text>,
+      }}
+    />
+    <Tab.Screen
+      name="TodoSreen1"
+      component={TodoSreen1}
+      options={{
+        title: 'Todo',
+        tabBarIcon: () => <Text style={{ fontSize: 18 }}>📝</Text>,
+      }}
+    />
+  </Tab.Navigator>
+);
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} >
-       <Stack.Screen name="Form" component={FormScreen} />
-        <Stack.Screen name="TodoSreen1" component={TodoSreen1} />
-        <Stack.Screen name="Todo" component={TodoScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Form" component={FormScreen} />
+
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen name="Todo" component={TodoScreen} />
+          <Stack.Screen name="ProductSpecification" component={ProductSpecification} />
+          <Stack.Screen name="AddedCart" component={AddedCart} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
 };
 
