@@ -25,23 +25,27 @@ const ShoppingListScreen = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
+const fetchProducts = async () => {
+  try {
+    const response = await fetch('https://fakestoreapi.com/products');
+    const data = await response.json();
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch('https://fakestoreapi.com/products');
-            const data = await response.json();
-            console.log('Fetched product:', data[0]);
-            setProducts(data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // specific items as unavailable (e.g,  item id = 3 or 7)
+    const updatedData = data.map((item) => {
+      if (item.id === 3 || item.id === 7) {
+        return { ...item, available: false };
+      }
+      return item;
+    });
 
-    const handleAddToCart = (item) => {
-        setCartItems(prev => [...prev, item]);
-    };
+    setProducts(updatedData);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     const filteredProducts = products.filter(item =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -98,7 +102,7 @@ const ShoppingListScreen = () => {
                     scrollEnabled={true}
                     contentContainerStyle={styles.list}
                 />
-                
+
         </SafeAreaView>
     );
 };

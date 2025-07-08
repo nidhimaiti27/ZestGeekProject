@@ -2,11 +2,18 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import { useCart } from '../context/CartContext';
 import CartItemCard from '../component/CartProduct/CartItemCard';
-const AddedCart = () => {
-  const { cartItems, removeFromCart } = useCart();
+
+const AddedCart = ({ navigation }) => {
+  const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } = useCart();
 
   const renderItem = ({ item }) => (
-    <CartItemCard item={item} onRemove={() => removeFromCart(item.id)} />
+    <CartItemCard
+    item={item}
+    onNavigate={() => navigation.navigate('ProductSpecification', { product: item })}
+    onIncrement={() => incrementQuantity(item.id)}
+    onDecrement={() => decrementQuantity(item.id)}
+    onRemove={() => removeFromCart(item.id)}
+  />
   );
 
   return (

@@ -1,18 +1,37 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CartItemCard = ({ item, onRemove }) => {
+const CartItemCard = ({
+  item,
+  onNavigate,
+  onIncrement,
+  onDecrement,
+  onRemove
+}) => {
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.details}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.price}>₹ {item.price}</Text>
-        <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
-          <Text style={styles.removeText}>Remove</Text>
-        </TouchableOpacity>
+    <TouchableOpacity onPress={onNavigate}>
+      <View style={styles.card}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+        <View style={styles.details}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.price}>₹ {item.price}</Text>
+
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity onPress={onDecrement} style={styles.quantityButton}>
+              <Text style={styles.quantityText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantityNumber}>{item.quantity}</Text>
+            <TouchableOpacity onPress={onIncrement} style={styles.quantityButton}>
+              <Text style={styles.quantityText}>+</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
+            <Text style={styles.removeText}>Remove</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -47,11 +66,33 @@ const styles = StyleSheet.create({
     color: '#4F46E5',
     marginBottom: 8,
   },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    marginLeft: -14,
+  },
+  quantityButton: {
+    backgroundColor: '#E5E7EB',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 4,
+    marginHorizontal: 14,
+  },
+  quantityText: {
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  quantityNumber: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#111827',
+  },
   removeButton: {
     alignSelf: 'flex-start',
     backgroundColor: '#EF4444',
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 24,
     borderRadius: 4,
   },
   removeText: {
