@@ -4,7 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useCart } from '../../context/CartContext';
 
 const ProductCard = ({ item, onPress }) => {
-  const { cartItems, addToCart, removeFromCart } = useCart();
+  const { cartItems, addToCart, removeFromCart, decrementQuantity } = useCart();
+
   const navigation = useNavigation();
 
   const cartItem = cartItems.find(ci => ci.id === item.id);
@@ -34,10 +35,11 @@ const ProductCard = ({ item, onPress }) => {
           <View style={styles.counterRow}>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => removeFromCart(item.id)}
+              onPress={() => decrementQuantity(item.id)}
             >
               <Text style={styles.counterText}>−</Text>
             </TouchableOpacity>
+
             <Text style={styles.quantityText}>{quantity}</Text>
             <TouchableOpacity
               style={styles.counterButton}
@@ -108,11 +110,11 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   counterButton: {
-    borderWidth:2,
-    borderColor:'#4F46E5',
+    borderWidth: 2,
+    borderColor: '#4F46E5',
     borderRadius: 5,
     paddingHorizontal: 4,
-    paddingVertical:2,
+    paddingVertical: 2,
     marginHorizontal: 10,
 
   },
@@ -127,22 +129,22 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   disabledCard: {
-  opacity: 0.5,
-},
+    opacity: 0.5,
+  },
 
-unavailableBadge: {
-  marginTop: 8,
-  backgroundColor: '#F87171',
-  paddingVertical: 4,
-  paddingHorizontal: 10,
-  borderRadius: 4,
-},
+  unavailableBadge: {
+    marginTop: 8,
+    backgroundColor: '#F87171',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
 
-unavailableText: {
-  color: '#fff',
-  fontWeight: 'bold',
-  fontSize: 12,
-  textAlign: 'center',
-},
+  unavailableText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
+    textAlign: 'center',
+  },
 
 });
