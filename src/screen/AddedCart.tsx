@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, ListRenderItem } from 'react-native';
 import { useCart } from '../context/CartContext';
-import CartItemCard from '../component/CartProduct/CartItemCard';
+import CartItemCard from '../component/cartProduct/CartItemCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Product = {
@@ -38,6 +38,7 @@ const AddedCart = ({ navigation }: Props) => {
         <FlatList
           data={cartItems}
           renderItem={renderItem}
+        
           keyExtractor={(item) => item.id.toString()}
         />
       )}

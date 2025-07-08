@@ -9,7 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import TodoItem1 from '../component/Todos/TodoItem1';
+import TodoItem1 from '../component/todos/TodoItem1';
 
 interface TodoItem {
   id: string;

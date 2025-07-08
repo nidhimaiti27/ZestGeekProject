@@ -14,13 +14,13 @@ interface Product {
 interface ProductCardProps {
   item: Product;
   onPress: () => void;
-    onAddToCart: () => void;
+  onAddToCart: () => void;
 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ item, onPress }) => {
   const { cartItems, addToCart, removeFromCart, decrementQuantity } = useCart();
-  const navigation = useNavigation<any>(); 
+  const navigation = useNavigation<any>();
   const cartItem = cartItems.find((ci) => ci.id === item.id);
   const quantity = cartItem?.quantity || 0;
   const isDisabled = item.available === false;
