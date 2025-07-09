@@ -28,13 +28,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ item, onPress }) => {
   return (
     <TouchableOpacity
       style={[styles.card, isDisabled && styles.disabledCard]}
-      onPress={isDisabled ? undefined : onPress}
+      onPress={onPress}
       activeOpacity={isDisabled ? 1 : 0.9}
 
     >
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-      <Text style={styles.price}>₹ {item.price}</Text>
+      <Text style={styles.price}>$ {item.price}</Text>
 
       {isDisabled ? (
         <View style={styles.unavailableBadge}>
@@ -122,6 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 6,
+    gap:10
+
   },
   counterButton: {
     borderWidth: 2,
@@ -129,8 +131,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 4,
     paddingVertical: 2,
-    marginHorizontal: 10,
-
   },
   counterText: {
     color: '#4F46E5',

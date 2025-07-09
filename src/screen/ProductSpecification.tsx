@@ -19,6 +19,7 @@ type Product = {
   image: string;
   category: string;
   description: string;
+  available?: boolean;
   rating?: {
     rate: number;
     count: number;
@@ -39,7 +40,7 @@ const ProductSpecification = ({ route }: Props) => {
   const { product } = route.params;
   const { cartItems, addToCart, decrementQuantity } = useCart();
   const navigation = useNavigation<any>();
-
+  const isUnavailable = product.available === false;
   const cartItem = cartItems.find((item) => item.id === product.id);
   const quantity = cartItem?.quantity || 0;
 
@@ -51,7 +52,7 @@ const ProductSpecification = ({ route }: Props) => {
         </View>
 
         <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.price}>₹ {product.price.toFixed(2)}</Text>
+        <Text style={styles.price}>$ {product.price.toFixed(2)}</Text>
 
         <View style={styles.infoCard}>
           <View style={styles.infoItem}>
@@ -70,36 +71,41 @@ const ProductSpecification = ({ route }: Props) => {
           </View>
         </View>
 
-        {quantity === 0 ? (
-          <TouchableOpacity style={styles.buttonPrimary} onPress={() => addToCart(product)}>
-            <Text style={styles.buttonText}>Add to Cart</Text>
-          </TouchableOpacity>
-        ) : (
-          <>
-            <View style={styles.quantityRow}>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => decrementQuantity(product.id)}
-              >
-                <Text style={styles.quantitySymbol}>−</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantity}</Text>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => addToCart(product)}
-              >
-                <Text style={styles.quantitySymbol}>+</Text>
-              </TouchableOpacity>
-            </View>
+       {isUnavailable ? (
+  <View style={styles.unavailableBox}>
+    <Text style={styles.unavailableText}>⚠️ This product is currently not available</Text>
+  </View>
+) : quantity === 0 ? (
+  <TouchableOpacity style={styles.buttonPrimary} onPress={() => addToCart(product)}>
+    <Text style={styles.buttonText}>Add to Cart</Text>
+  </TouchableOpacity>
+) : (
+  <>
+    <View style={styles.quantityRow}>
+      <TouchableOpacity
+        style={styles.quantityButton}
+        onPress={() => decrementQuantity(product.id)}
+      >
+        <Text style={styles.quantitySymbol}>−</Text>
+      </TouchableOpacity>
+      <Text style={styles.quantityText}>{quantity}</Text>
+      <TouchableOpacity
+        style={styles.quantityButton}
+        onPress={() => addToCart(product)}
+      >
+        <Text style={styles.quantitySymbol}>+</Text>
+      </TouchableOpacity>
+    </View>
 
-            <TouchableOpacity
-              style={styles.buttonSecondary}
-              onPress={() => navigation.navigate('AddedCart')}
-            >
-              <Text style={styles.buttonText}>Go to Cart 🛒</Text>
-            </TouchableOpacity>
-          </>
-        )}
+    <TouchableOpacity
+      style={styles.buttonSecondary}
+      onPress={() => navigation.navigate('AddedCart')}
+    >
+      <Text style={styles.buttonText}>Go to Cart 🛒</Text>
+    </TouchableOpacity>
+  </>
+)}
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -112,8 +118,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     alignItems: 'center',
     paddingHorizontal: 16,
-    backgroundColor:'#fff',
-
+    backgroundColor:'#FFF2E0',
   },
   imageCard: {
     backgroundColor: '#fff',
@@ -128,10 +133,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 4,
+    alignSelf:'flex-start'
+
   },
   price: {
     fontSize: 22,
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
     alignSelf:'flex-start'
   },
   infoCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF2E0',
     width: width * 0.9,
     borderRadius: 12,
     marginBottom: 2,
@@ -170,8 +177,8 @@ const styles = StyleSheet.create({
   },
   buttonSecondary: {
     backgroundColor: '#10B981',
-    paddingVertical: 14,
-    paddingHorizontal: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     borderRadius: 10,
     elevation: 3,
   },
@@ -184,13 +191,13 @@ const styles = StyleSheet.create({
   quantityRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 18,
+    gap: 16,
     marginBottom: 10,
   },
   quantityButton: {
     backgroundColor: '#E0E7FF',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 3,
     borderRadius: 8,
   },
   quantitySymbol: {
@@ -203,4 +210,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#111827',
   },
+  unavailableBox: {
+  backgroundColor: '#FECACA',
+  padding: 12,
+  borderRadius: 10,
+  // marginTop: 10,
+},
+unavailableText: {
+  color: '#991B1B',
+  fontWeight: '600',
+  textAlign: 'center',
+},
+
 });

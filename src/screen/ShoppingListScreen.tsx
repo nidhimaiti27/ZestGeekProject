@@ -122,7 +122,7 @@ export default ShoppingListScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F9FAFB',
+        backgroundColor: '#FFF2E0',
         paddingHorizontal: 10,
     },
     banner: {

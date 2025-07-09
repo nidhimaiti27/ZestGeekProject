@@ -30,7 +30,7 @@ const CartItemCard = ({
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.details}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.price}>₹ {item.price}</Text>
+          <Text style={styles.price}>$ {item.price}</Text>
 
           <View style={styles.quantityContainer}>
             <TouchableOpacity onPress={onDecrement} style={styles.quantityButton}>
