@@ -45,68 +45,74 @@ const ProductSpecification = ({ route }: Props) => {
   const quantity = cartItem?.quantity || 0;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageCard}>
           <Image source={{ uri: product.image }} style={styles.image} />
         </View>
 
-        <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.price}>$ {product.price.toFixed(2)}</Text>
+        <View style={styles.contentBox}>
+          <Text style={styles.title}>{product.title}</Text>
 
-        <View style={styles.infoCard}>
-          <View style={styles.infoItem}>
+          <View style={styles.priceRow}>
+            <Text style={styles.price}>$ {product.price.toFixed(2)}</Text>
+            <View style={styles.ratingBox}>
+              <Text style={styles.ratingText}>⭐ {product.rating?.rate ?? "N/A"}</Text>
+            </View>
+          </View>
+
+          <View style={styles.section}>
             <Text style={styles.label}>📦 Description</Text>
             <Text style={styles.value}>{product.description}</Text>
           </View>
 
-          <View style={styles.infoItem}>
+          <View style={styles.section}>
             <Text style={styles.label}>🏷️ Category</Text>
             <Text style={styles.value}>{product.category}</Text>
           </View>
 
-          <View style={styles.infoItem}>
-            <Text style={styles.label}>⭐ Rating</Text>
-            <Text style={styles.value}>{product.rating?.rate} / 5</Text>
+          <View style={styles.section}>
+            <Text style={styles.label}>📊 Rating Count</Text>
+            <Text style={styles.value}>{product.rating?.count ?? "N/A"} ratings</Text>
           </View>
         </View>
-
-       {isUnavailable ? (
-  <View style={styles.unavailableBox}>
-    <Text style={styles.unavailableText}>⚠️ This product is currently not available</Text>
-  </View>
-) : quantity === 0 ? (
-  <TouchableOpacity style={styles.buttonPrimary} onPress={() => addToCart(product)}>
-    <Text style={styles.buttonText}>Add to Cart</Text>
-  </TouchableOpacity>
-) : (
-  <>
-    <View style={styles.quantityRow}>
-      <TouchableOpacity
-        style={styles.quantityButton}
-        onPress={() => decrementQuantity(product.id)}
-      >
-        <Text style={styles.quantitySymbol}>−</Text>
-      </TouchableOpacity>
-      <Text style={styles.quantityText}>{quantity}</Text>
-      <TouchableOpacity
-        style={styles.quantityButton}
-        onPress={() => addToCart(product)}
-      >
-        <Text style={styles.quantitySymbol}>+</Text>
-      </TouchableOpacity>
-    </View>
-
-    <TouchableOpacity
-      style={styles.buttonSecondary}
-      onPress={() => navigation.navigate('AddedCart')}
-    >
-      <Text style={styles.buttonText}>Go to Cart 🛒</Text>
-    </TouchableOpacity>
-  </>
-)}
-
       </ScrollView>
+
+      <View style={styles.footer}>
+        {isUnavailable ? (
+          <View style={styles.unavailableBox}>
+            <Text style={styles.unavailableText}>⚠️ Not Available</Text>
+          </View>
+        ) : quantity === 0 ? (
+          <TouchableOpacity style={styles.addToCartButton} onPress={() => addToCart(product)}>
+            <Text style={styles.buttonText}>🛒 Add to Cart</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.cartActionRow}>
+            <View style={styles.quantityControl}>
+              <TouchableOpacity
+                style={styles.qtyBtn}
+                onPress={() => decrementQuantity(product.id)}
+              >
+                <Text style={styles.qtyText}>−</Text>
+              </TouchableOpacity>
+              <Text style={styles.qtyDisplay}>{quantity}</Text>
+              <TouchableOpacity
+                style={styles.qtyBtn}
+                onPress={() => addToCart(product)}
+              >
+                <Text style={styles.qtyText}>+</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={styles.goToCartButton}
+              onPress={() => navigation.navigate('AddedCart')}
+            >
+              <Text style={styles.buttonText}>Go to Cart</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -114,46 +120,59 @@ const ProductSpecification = ({ route }: Props) => {
 export default ProductSpecification;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F9FAFB',
+  },
   container: {
-    paddingBottom: 40,
+    paddingBottom: 30,
     alignItems: 'center',
     paddingHorizontal: 16,
-    backgroundColor:'#FFF2E0',
   },
   imageCard: {
     backgroundColor: '#fff',
-    width: width * 1,
-    padding: 12,
-    marginBottom: 16,
+    width: width,
+    padding: 16,
+    marginBottom: 12,
     alignItems: 'center',
   },
   image: {
     width: '100%',
-    height: 280,
+    height: 300,
     resizeMode: 'contain',
   },
+  contentBox: {
+    width: '100%',
+  },
   title: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '600',
     color: '#1F2937',
-    marginBottom: 4,
-    alignSelf:'flex-start'
-
+    marginBottom: 8,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
   price: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#4F46E5',
-    marginBottom: 12,
-    alignSelf:'flex-start'
   },
-  infoCard: {
-    backgroundColor: '#FFF2E0',
-    width: width * 0.9,
-    borderRadius: 12,
-    marginBottom: 2,
+  ratingBox: {
+    backgroundColor: '#E5E7EB',
+    borderRadius: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
   },
-  infoItem: {
+  ratingText: {
+    fontSize: 14,
+    color: '#111827',
+    fontWeight: '600',
+  },
+  section: {
     marginBottom: 14,
   },
   label: {
@@ -167,59 +186,66 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     lineHeight: 22,
   },
-  buttonPrimary: {
+  footer: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderColor: '#E5E7EB',
+    backgroundColor: '#fff',
+  },
+  addToCartButton: {
     backgroundColor: '#4F46E5',
     paddingVertical: 14,
-    paddingHorizontal: 40,
     borderRadius: 10,
-    elevation: 3,
-    marginTop: 10,
+    alignItems: 'center',
   },
-  buttonSecondary: {
+  goToCartButton: {
     backgroundColor: '#10B981',
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
     borderRadius: 10,
-    elevation: 3,
+    alignItems: 'center',
+    flex: 1,
+    marginLeft: 10,
+  },
+  cartActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  quantityControl: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  qtyBtn: {
+    backgroundColor: '#E0E7FF',
+    padding: 10,
+    borderRadius: 8,
+  },
+  qtyText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#4F46E5',
+  },
+  qtyDisplay: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginHorizontal: 12,
+    color: '#111827',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '700',
-    textAlign: 'center',
-  },
-  quantityRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    marginBottom: 10,
-  },
-  quantityButton: {
-    backgroundColor: '#E0E7FF',
-    paddingHorizontal: 14,
-    paddingVertical: 3,
-    borderRadius: 8,
-  },
-  quantitySymbol: {
-    fontSize: 20,
-    color: '#4F46E5',
-    fontWeight: 'bold',
-  },
-  quantityText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#111827',
   },
   unavailableBox: {
-  backgroundColor: '#FECACA',
-  padding: 12,
-  borderRadius: 10,
-  // marginTop: 10,
-},
-unavailableText: {
-  color: '#991B1B',
-  fontWeight: '600',
-  textAlign: 'center',
-},
-
+    backgroundColor: '#F87171',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  unavailableText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
 });
+
